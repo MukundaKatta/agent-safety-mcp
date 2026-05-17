@@ -1,0 +1,42 @@
+{
+  "name": "agent-safety-mcp",
+  "version": "0.1.0",
+  "description": "MCP server that gives any LLM agent a built-in safety layer: arg validation, egress firewall, JSON repair, context fitting, and snapshot tracing. Wraps the @mukundakatta agent-stack libs.",
+  "type": "module",
+  "bin": {
+    "agent-safety-mcp": "dist/server.js"
+  },
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "http": "node dist/http.js",
+    "demo:gemini": "tsx examples/gemini-demo.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@mukundakatta/agentcast": "^0.1.1",
+    "@mukundakatta/agentfit": "^0.1.1",
+    "@mukundakatta/agentguard": "^0.1.1",
+    "@mukundakatta/agentsnap": "^0.1.1",
+    "@mukundakatta/agentvet": "^0.1.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@google/genai": "^2.3.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "keywords": ["mcp", "model-context-protocol", "ai-agents", "agent-safety", "llm-tools"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MukundaKatta/agent-safety-mcp.git"
+  },
+  "author": "Mukunda Katta"
+}
