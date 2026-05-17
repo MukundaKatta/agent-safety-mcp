@@ -24,6 +24,10 @@ Each of those is solved separately by an open-source library. This MCP server wi
 | `count_tokens` | Fast token estimate for a string or message array. | [@mukundakatta/agentfit](https://www.npmjs.com/package/@mukundakatta/agentfit) |
 | `diff_snapshot` | Compare two agent traces. Reports `PASSED`, `OUTPUT_DRIFT`, `TOOLS_REORDERED`, `TOOLS_CHANGED`, or `REGRESSION`. | [@mukundakatta/agentsnap](https://www.npmjs.com/package/@mukundakatta/agentsnap) |
 
+## Optional: Splunk HEC sink
+
+Set `SPLUNK_HEC_URL` and `SPLUNK_HEC_TOKEN` (and optionally `SPLUNK_HEC_INDEX`) before starting the server. Every safety tool call is then forwarded to Splunk as a structured event with `sourcetype=agent_safety`, so SOC and SRE teams can search, alert, and dashboard agent policy decisions in real time. The sink is a no-op when those env vars are unset.
+
 ## Run it
 
 ### Local (stdio)

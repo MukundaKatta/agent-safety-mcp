@@ -15,6 +15,7 @@ import {
   diffSnapshotTool,
   diffSnapshotSchema,
 } from "./tools.js";
+import { emitSplunkEvent, splunkEnabled } from "./splunk.js";
 
 export function buildServer(): McpServer {
   const server = new McpServer({
@@ -32,6 +33,11 @@ export function buildServer(): McpServer {
     },
     async (input) => {
       const out = validateArgs(input);
+      void emitSplunkEvent({
+        tool: "validate_args",
+        outcome: out.valid ? "valid" : "invalid",
+        detail: { tool_name: input.tool_name },
+      });
       return { content: [{ type: "text", text: JSON.stringify(out) }] };
     },
   );
@@ -46,6 +52,11 @@ export function buildServer(): McpServer {
     },
     async (input) => {
       const out = checkEgress(input);
+      void emitSplunkEvent({
+        tool: "check_egress",
+        outcome: out.allowed ? "allow" : "deny",
+        detail: { url: input.url, reason: out.allowed ? null : out.reason },
+      });
       return { content: [{ type: "text", text: JSON.stringify(out) }] };
     },
   );
@@ -60,6 +71,10 @@ export function buildServer(): McpServer {
     },
     async (input) => {
       const out = extractJsonTool(input);
+      void emitSplunkEvent({
+        tool: "extract_json",
+        outcome: out.extracted ? "ok" : "invalid",
+      });
       return { content: [{ type: "text", text: JSON.stringify(out) }] };
     },
   );
@@ -74,6 +89,11 @@ export function buildServer(): McpServer {
     },
     async (input) => {
       const out = fitMessagesTool(input);
+      void emitSplunkEvent({
+        tool: "fit_messages",
+        outcome: out.fit ? "ok" : "invalid",
+        detail: { dropped: out.dropped_count, tokens: out.tokens },
+      });
       return { content: [{ type: "text", text: JSON.stringify(out) }] };
     },
   );
@@ -102,6 +122,11 @@ export function buildServer(): McpServer {
     },
     async (input) => {
       const out = diffSnapshotTool(input);
+      void emitSplunkEvent({
+        tool: "diff_snapshot",
+        outcome: out.changed ? "drift" : "passed",
+        detail: { status: out.status, change_count: out.change_count },
+      });
       return { content: [{ type: "text", text: JSON.stringify(out) }] };
     },
   );
@@ -113,7 +138,9 @@ async function main() {
   const server = buildServer();
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("agent-safety-mcp running on stdio");
+  console.error(
+    `agent-safety-mcp running on stdio (splunk-hec=${splunkEnabled() ? "on" : "off"})`,
+  );
 }
 
 main().catch((err) => {
