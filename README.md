@@ -69,6 +69,8 @@ The deployed server exposes:
 - `POST /mcp` — Streamable HTTP MCP endpoint
 - `GET /healthz` — liveness probe
 
+**Live demo deploy**: https://agent-safety-mcp-444075785245.us-central1.run.app/mcp
+
 ## Demo
 
 `examples/gemini-demo.ts` runs a Gemini 2.0 Flash agent on Vertex AI that calls the MCP tools to validate args and check an egress URL.

@@ -39,7 +39,7 @@ Today, every team building on Gemini reinvents the same four safety primitives. 
 ## Links
 
 - Repo: https://github.com/MukundaKatta/agent-safety-mcp
-- Deployed MCP: https://agent-safety-mcp-<TBD>-uc.a.run.app/mcp
+- Deployed MCP (Cloud Run, us-central1): https://agent-safety-mcp-444075785245.us-central1.run.app/mcp
 - 3-min demo video: <TBD>
 
 ## Judging criteria fit
