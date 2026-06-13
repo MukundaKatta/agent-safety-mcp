@@ -21,7 +21,7 @@
     "@mukundakatta/agentguard": "^0.1.1",
     "@mukundakatta/agentsnap": "^0.1.1",
     "@mukundakatta/agentvet": "^0.1.1",
-    "zod": "^3.23.8"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@google/genai": "^2.3.0",
